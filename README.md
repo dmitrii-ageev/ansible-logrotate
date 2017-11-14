@@ -1,5 +1,5 @@
-reannz.logrotate
-================
+logrotate
+=========
 
 This role will install logrotate package, and run it as a service.
 
@@ -49,7 +49,7 @@ Example Playbook
 You can invoke this role from the other one, declaring it as a dependency in the meta file: 
 ```
 dependencies:
-  - role: reannz.logrotate
+  - role: logrotate
     logrotate__files:
       - name: "application"
         path:

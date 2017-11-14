@@ -2,8 +2,8 @@
 - hosts: all
   become: True
   roles:
-    - reannz.logrotate
-    - role: reannz.logrotate
+    - logrotate
+    - role: logrotate
       logrotate__files:
         - name: "application"
           path:
