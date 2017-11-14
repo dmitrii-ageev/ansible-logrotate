@@ -24,7 +24,7 @@ install:
 script:
 
   # Download depended roles
-  - if [ -z $(grep -s '^\s*dependencies:\s*$' meta/main.yml) ]; then ansible-galaxy install -i $TRAVIS_REPO_SLUG; fi
+  - if [ -f tests/requirements.yml ]; then ansible-galaxy install -r tests/requirements.yml; fi
 
   #
   # Basic role syntax check
@@ -35,13 +35,14 @@ script:
   - ansible-playbook -i tests/inventory --syntax-check tests/test.yml
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
 
-matrix:
-  - DISTRIBUTIONS=centos.6
-  - DISTRIBUTIONS=centos.7
-  - DISTRIBUTIONS=ubuntu.trusty
-  - DISTRIBUTIONS=ubuntu.xenial
-  - DISTRIBUTIONS=debian.jessie
-  - DISTRIBUTIONS=debian.stretch
+env:
+  matrix:
+    - DISTRIBUTIONS=centos.6
+    - DISTRIBUTIONS=centos.7
+    - DISTRIBUTIONS=ubuntu.trusty
+    - DISTRIBUTIONS=ubuntu.xenial
+    - DISTRIBUTIONS=debian.jessie
+    - DISTRIBUTIONS=debian.stretch
 
 notifications:
   webhooks:
