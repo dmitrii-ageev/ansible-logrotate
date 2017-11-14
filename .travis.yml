@@ -4,30 +4,50 @@ python: "2.7"
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq python-apt python-pycurl
+
 install:
+  # Install ansible
   - pip install ansible
+ 
+  # Install ansible-lint
+  - pip install ansible-lint
+
+  # Install ansible-review
+  - pip install ansible-review
+
+  # Control ansible version
+  - ansible --version
+
+  # Create ansible.cfg with correct roles_path
+  - printf '[defaults]\nroles_path = ../' > ansible.cfg
+
 script:
-  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+
+  # Download depended roles
+  - if [ -z $(grep -s '^\s*dependencies:\s*$' meta/main.yml) ]; then ansible-galaxy install -i $TRAVIS_REPO_SLUG; fi
+
+  #
+  # Basic role syntax check
+  #
+
+  - ansible-lint tests/test.yml
+  - ansible-review tests/test.yml
   - ansible-playbook -i tests/inventory --syntax-check tests/test.yml
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
-notifications:
-  email: false
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
 
 matrix:
-  include:
-    - os: linux
-      dist: trusty
-    - os: linux
-      dist: xenial
-    - os: linux
-      dist: jessie
-    - os: linux
-      dist: stretch
-    - os: linux
-      os_type: centos
-      os_version: 6
-    - os: linux
-      os_type: centos
-      os_version: 7
+  - DISTRIBUTIONS=centos.6
+  - DISTRIBUTIONS=centos.7
+  - DISTRIBUTIONS=ubuntu.trusty
+  - DISTRIBUTIONS=ubuntu.xenial
+  - DISTRIBUTIONS=debian.jessie
+  - DISTRIBUTIONS=debian.stretch
+
+notifications:
+  webhooks:
+    urls:
+      - https://galaxy.ansible.com/api/v1/notifications/
+    on_success: change
+    on_failure: always
+    on_start: never
 ...
