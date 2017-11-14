@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: "Dmitrii Ageev"
-  company: Research and Education Advanced Network NZ
+  company: Research & Education Advanced Network New Zealand
   license: GNU General Public License v2.0
   min_ansible_version: 2.3
   platforms:
@@ -20,6 +20,6 @@ galaxy_info:
     - name: CentOS
       versions:
         - 7
-  categories:
+  galaxy_tags:
     - core system
 ...
