@@ -24,22 +24,6 @@ path    - A list of path patterns for the log rotation.
 options - List of directives for logrotate, view the logrotate man page for specifics.
 scripts - Dictionary of scripts for logrotate with format section_name: 'executed command'.
 
-**Example:**
-```
-logrotate__files:
-  - name: glusterfs
-    path:
-      - /var/log/glusterfs/samples/*.samp
-      - /var/log/glusterfs/bricks/*.log
-    options:
-      - daily
-      - rotate 3
-      - sharedscripts
-      - missingok
-      - compress
-      - delaycompress
-```
-
 Dependencies
 ------------
 
@@ -48,23 +32,28 @@ None.
 Example Playbook
 ----------------
 
-You can invoke this role from the other one, declaring it as a dependency in the meta file: 
+You can invoke this role from a playbook or from an other role, declaring it as a dependency in the meta file. 
 ```
-dependencies:
-  - role: logrotate
-    logrotate__files:
-      - name: "application"
-        path:
-          - /var/log/application/*.log
-        options:
-          - weekly
-          - rotate 4
-          - compress
-        scripts:
-          postrotate: systemctl reload application > /dev/null
-
-      - name: "test"
-        absent: yes
+---
+- hosts: all
+  become: True
+  roles:
+    - role: logrotate
+      logrotate__files:
+        - name: glusterfs
+          path:
+            - /var/log/glusterfs/samples/*.samp
+            - /var/log/glusterfs/bricks/*.log
+          options:
+            - daily
+            - rotate 3
+            - sharedscripts
+            - missingok
+            - compress
+            - delaycompress
+          scripts: 
+            postrotate: systemctl reload glusterfs
+...
 ```
 
 License
