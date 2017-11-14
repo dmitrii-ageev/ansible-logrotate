@@ -18,5 +18,11 @@ galaxy_info:
        - jessie
        - stretch
   galaxy_tags:
-    - core system
+    - logrotate
+    - system
+    - centos
+    - ubuntu
+    - debian
+    - logs
+    - rotate
 ...
