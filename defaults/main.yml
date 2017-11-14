@@ -68,6 +68,11 @@ logrotate__packages:
       required_packages:
         - cron
   Ubuntu:
+    14:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cron
     16:
       packages:
         - "{{ logrotate__service }}"

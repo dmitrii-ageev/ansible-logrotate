@@ -11,7 +11,7 @@ The main role purpose is to:
 Requirements
 ------------
 
-Ubuntu 16 or CentOS 7.
+Ubuntu 14, 16 or CentOS 7.
 This role supports RedHat 7 and Debian 8, 9 as well.
 
 Role Variables
