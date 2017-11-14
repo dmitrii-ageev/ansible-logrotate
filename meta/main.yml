@@ -5,21 +5,18 @@ galaxy_info:
   license: GNU General Public License v2.0
   min_ansible_version: 2.3
   platforms:
-    - name: Debian
-      versions:
-        - 8
-    - name: Debian
-      versions:
-        - 9
-    - name: Ubuntu
-      versions:
-        - 16
-    - name: RedHat
-      versions:
-        - 7
-    - name: CentOS
-      versions:
-        - 7
+   - name: EL
+     versions:
+       - 6
+       - 7
+   - name: Ubuntu
+     versions:
+       - trusty
+       - xenial
+   - name: Debian
+     versions:
+       - jessie
+       - stretch
   galaxy_tags:
     - core system
 ...
