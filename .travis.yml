@@ -1,48 +1,65 @@
 ---
 language: python
 python: "2.7"
+
+env:
+  - ANSIBLE_VERSION=2.3.3
+  - ANSIBLE_VERSION=latest
+
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-apt python-pycurl
 
 install:
   # Install ansible
   - pip install ansible
  
+  # Check ansible version
+  - ansible --version
+
   # Install ansible-lint
   - pip install ansible-lint
 
   # Install ansible-review
   - pip install ansible-review
 
-  # Control ansible version
-  - ansible --version
-
   # Create ansible.cfg with correct roles_path
   - printf '[defaults]\nroles_path = ../' > ansible.cfg
 
 script:
-
   # Download depended roles
   - if [ -f tests/requirements.yml ]; then ansible-galaxy install -r tests/requirements.yml; fi
 
-  #
   # Basic role syntax check
-  #
-
   - ansible-lint tests/test.yml
   - ansible-review tests/test.yml
   - ansible-playbook -i tests/inventory --syntax-check tests/test.yml
+
+  # Run the role/playbook with ansible-playbook
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
 
-env:
-  matrix:
-    - DISTRIBUTIONS=centos.6
-    - DISTRIBUTIONS=centos.7
-    - DISTRIBUTIONS=ubuntu.trusty
-    - DISTRIBUTIONS=ubuntu.xenial
-    - DISTRIBUTIONS=debian.jessie
-    - DISTRIBUTIONS=debian.stretch
+  # Run the role/playbook again, checking to make sure it's idempotent
+  - >
+    ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml 
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: jessie
+    - os: linux
+      dist: stretch
+    - os: linux
+      os_type: centos
+      os_version: 6
+    - os: linux
+      os_type: centos
+      os_version: 7
 
 notifications:
   webhooks:
