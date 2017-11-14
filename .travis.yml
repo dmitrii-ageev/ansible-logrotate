@@ -23,4 +23,10 @@ matrix:
       dist: jessie
     - os: linux
       dist: stretch
+    - os: linux
+      os_type: centos
+      os_version: 6
+    - os: linux
+      os_type: centos
+      os_version: 7
 ...
