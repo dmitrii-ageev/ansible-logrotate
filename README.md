@@ -8,7 +8,6 @@ The main role purpose is to:
 - make it easy to configure logrotate - create per-application files in /etc/logrotate.d;
 - handle log files for standard installations.
 
-
 Requirements
 ------------
 
