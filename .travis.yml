@@ -12,4 +12,15 @@ script:
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
 notifications:
   email: false
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: jessie
+    - os: linux
+      dist: stretch
 ...
