@@ -1,0 +1,26 @@
+{{ ansible_managed | comment }}
+# Global options go here, see "man logrotate" for details
+{% for option in logrotate__options -%}
+{{   option }}
+{% endfor %}
+
+# Packages drop log rotation information into this directory
+include {{ logrotate__include_dir }}
+
+# No packages own wtmp and btmp -- we'll rotate them here
+/var/log/wtmp {
+    monthly
+    create 0664 root utmp
+    minsize 1M
+    rotate 1
+}
+
+/var/log/btmp {
+    missingok
+    monthly
+    create 0600 root utmp
+    rotate 1
+}
+
+# System-specific logs may be also added here
+

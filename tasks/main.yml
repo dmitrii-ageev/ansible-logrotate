@@ -1,0 +1,15 @@
+---
+- include_tasks: preflight_checks.yml
+
+- block:
+    - include_tasks: install.yml
+    - include_tasks: configuration.yml
+    - include_tasks: run.yml
+  when: logrotate__state == "present"
+
+- block:
+    - include_tasks: stop.yml
+    - include_tasks: deconfiguration.yml
+    - include_tasks: uninstall.yml
+  when: logrotate__state == "absent"
+...

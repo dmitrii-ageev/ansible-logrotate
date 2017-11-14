@@ -1,0 +1,11 @@
+---
+- name: Add logrotate to the cron daily schedule
+  template:
+    src: logrotate.cron.j2
+    dest: "{{ logrotate__cron_file }}"
+    force: yes
+    owner: "{{ logrotate__user }}"
+    group: "{{ logrotate__group }}"
+    mode: "{{ logrotate__dir_mode }}"
+  notify: Restart cron service
+...

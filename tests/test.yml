@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: True
+  roles:
+    - reannz.logrotate
+    - role: reannz.logrotate
+      logrotate__files:
+        - name: "application"
+          path:
+            - /var/log/application/*.log
+          options:
+            - weekly
+            - rotate 4
+            - compress
+          scripts:
+            postrotate: systemctl reload application > /dev/null
+...

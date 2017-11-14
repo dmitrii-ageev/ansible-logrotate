@@ -1,0 +1,7 @@
+---
+- name: "Remove logrotate from the cron schedule"
+  file:
+    path: "{{ logrotate__cron_file }}"
+    state: absent
+  notify: Restart cron service
+...

@@ -1,0 +1,18 @@
+---
+- name: "Delete the configuration file"
+  file:
+    path: "{{ logrotate__conf_file }}"
+    state: absent
+  when:
+    - logrotate__conf_file is defined
+    - logrotate__conf_file != ''
+
+- name: "Delete logrotate files"
+  file:
+    path: "{{ logrotate__include_dir }}/{{ item.name }}"
+    state: absent
+  with_items: "{{ logrotate__files }}"
+  when:
+    - logrotate__files is defined
+    - logrotate__files != []
+...

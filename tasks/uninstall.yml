@@ -1,0 +1,16 @@
+---
+- name: Uninstall packages
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] }}"
+
+- name: Delete the application folder set
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ logrotate__directories }}"
+  when:
+    - logrotate__directories is defined
+    - logrotate__directories != []
+...

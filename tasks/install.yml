@@ -1,0 +1,49 @@
+---
+- name: Add required repositories for Debian-based systems
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  when:
+    - ansible_os_family == "Debian"
+    - item is defined
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] }}"
+
+- name: Add required repositories for RedHat-based systems
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  when:
+    - ansible_os_family == "RedHat"
+    - item is defined
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] }}"
+
+- name: Install required packages
+  package:
+    name: "{{ item }}"
+    state: present
+  when: item is defined
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['required_packages'] }}"
+  notify: Restart cron service
+
+- name: Install main packages
+  package:
+    name: "{{ item }}"
+    state: present
+  when: item is defined
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] }}"
+  notify: Restart cron service
+
+- name: Create the application folder set
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ logrotate__user }}"
+    group: "{{ logrotate__group }}"
+    mode: "{{ logrotate__dir_mode }}"
+  with_items: "{{ logrotate__directories }}"
+  when:
+    - logrotate__directories is defined
+    - logrotate__directories != []
+...

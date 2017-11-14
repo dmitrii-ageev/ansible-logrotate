@@ -1,0 +1,131 @@
+---
+# GLOBAL VARIABLES
+logrotate__state:                "present"
+logrotate__daemon:               "logrotate"
+logrotate__service:              "{{ logrotate__daemon }}"
+logrotate__description:          "{{ logrotate__service }} ‐ rotates, compresses, and mails system logs"
+
+# Directories
+logrotate__root_dir:             ""
+logrotate__etc_dir:              "{{ logrotate__root_dir }}/etc"
+logrotate__bin_dir:              "{{ logrotate__root_dir }}/bin"
+logrotate__sbin_dir:             "{{ logrotate__root_dir }}/sbin"
+logrotate__lib_dir:              "{{ logrotate__root_dir }}/lib"
+logrotate__lib64_dir:            "{{ logrotate__root_dir }}/lib64"
+logrotate__usr_dir:              "{{ logrotate__root_dir }}/usr"
+logrotate__usr_bin_dir:          "{{ logrotate__usr_dir }}/bin"
+logrotate__usr_sbin_dir:         "{{ logrotate__usr_dir }}/sbin"
+logrotate__usr_lib_dir:          "{{ logrotate__usr_dir }}/lib"
+logrotate__usr_lib64_dir:        "{{ logrotate__usr_dir }}/lib64"
+logrotate__var_dir:              "{{ logrotate__root_dir }}/var"
+logrotate__var_run_dir:          "{{ logrotate__var_dir }}/run"
+logrotate__var_lib_dir:          "{{ logrotate__var_dir }}/lib"
+logrotate__var_log_dir:          "{{ logrotate__var_dir }}/log"
+logrotate__var_lock_dir:         "{{ logrotate__var_dir }}/lock"
+logrotate__var_cache_dir:        "{{ logrotate__var_dir }}/cache"
+logrotate__var_spool_dir:        "{{ logrotate__var_dir }}/spool"
+logrotate__var_tmp_dir:          "{{ logrotate__var_dir }}/tmp"
+logrotate__var_db_dir:           "{{ logrotate__var_dir }}/db"
+
+logrotate__conf_dir:             "{{ logrotate__etc_dir }}"
+logrotate__include_dir:          "{{ logrotate__conf_dir }}/{{ logrotate__daemon }}.d"
+logrotate__log_dir:              "{{ logrotate__var_log_dir }}/{{ logrotate__service }}"
+logrotate__lock_dir:             "{{ logrotate__var_lock_dir }}"
+logrotate__cache_dir:            "{{ logrotate__var_cache_dir }}/{{ logrotate__service }}"
+logrotate__spool_dir:            "{{ logrotate__var_spool_dir }}/{{ logrotate__service }}"
+logrotate__data_dir:             "{{ logrotate__spool_dir }}/lib"
+
+# FILES
+logrotate__daemon_file:          "{{ logrotate__usr_sbin_dir }}/{{ logrotate__daemon }}"
+logrotate__conf_file:            "{{ logrotate__conf_dir }}/{{ logrotate__service }}.conf"
+logrotate__cron_file:            "{{ logrotate__etc_dir }}/cron.daily/{{ logrotate__daemon }}"
+logrotate__log_file:             "{{ logrotate__log_dir }}/{{ logrotate__daemon }}.log"
+logrotate__status_file:          "{{ logrotate__data_dir }}/{{ logrotate__daemon }}.status"
+logrotate__lock_file:            "{{ logrotate__lock_dir }}/{{ logrotate__daemon }}.lock"
+
+# USER AND GROUP
+logrotate__user:                 "root"
+logrotate__group:                "{{ logrotate__user }}"
+
+# MODES
+logrotate__dir_mode:             "0755"
+logrotate__file_mode:            "0644"
+logrotate__exec_mode:            "0755"
+
+logrotate__directories:
+  - "{{ logrotate__include_dir }}"
+
+logrotate__packages:
+  Debian:
+    8:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cron
+    9:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cron
+  Ubuntu:
+    16:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cron
+  CentOS:
+    7:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cronie
+  RedHat:
+    7:
+      packages:
+        - "{{ logrotate__service }}"
+      required_packages:
+        - cronie
+
+# OPTIONS
+logrotate__options:
+  - weekly
+  - rotate 4
+  - create
+  - compress
+  - su root syslog
+
+logrotate__files:
+  - name: rsyslog
+    path:
+      - /var/log/syslog
+      - /var/log/messages
+      - /var/log/cron
+      - /var/log/mail*
+      - /var/log/daemon.log
+      - /var/log/kern.log
+      - /var/log/auth.log
+      - /var/log/user.log
+      - /var/log/lpr.log
+      - /var/log/cron.log
+      - /var/log/debug
+    options:
+      - rotate 12
+      - weekly
+      - missingok
+      - notifempty
+      - compress
+      - delaycompress
+      - sharedscripts
+    scripts:
+      postrotate: invoke-rc.d rsyslog rotate > /dev/null
+
+  - name: "{{ 'dpkg' if ansible_os_family == 'Debian' else 'yum' }}"
+    pattern:
+      - "/var/log/{{ 'dpkg' if ansible_os_family == 'Debian' else 'yum' }}.log"
+      - "/var/log/alternatives.log"
+    options:
+      - monthly
+      - size 30k
+      - compress
+      - delaycompress
+...

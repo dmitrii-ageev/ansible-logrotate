@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+{% if item.path is defined or item.pattern is defined %}
+{%   for pattern in (item.path|d([])+item.pattern|d([]))|list %}
+{{     pattern }}
+{%   endfor %}
+{
+{%   if item.description is defined %}
+{{     item.description | comment }}
+{%   endif %}
+{%   for option in item.options -%}
+{{     option | indent(2, true) }}
+{%   endfor %}
+{%   if item.scripts is defined %}
+{%     for name, script in item.scripts.items() %}
+{{       name | indent(2, true) }}
+{{         script | indent(4, true) }}
+{{       'endscript' | indent(2, true) }}
+{%     endfor %}
+{%   endif %}
+}
+{% endif %}
