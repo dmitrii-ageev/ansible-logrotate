@@ -24,6 +24,8 @@ path    - A list of path patterns for the log rotation.
 options - List of directives for logrotate, view the logrotate man page for specifics.
 scripts - Dictionary of scripts for logrotate with format section_name: 'executed command'.
 
+**Example:**
+```
 logrotate__files:
   - name: glusterfs
     path:
@@ -36,6 +38,7 @@ logrotate__files:
       - missingok
       - compress
       - delaycompress
+```
 
 Dependencies
 ------------
