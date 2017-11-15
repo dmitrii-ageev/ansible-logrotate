@@ -97,7 +97,7 @@ logrotate__options:
   - rotate 4
   - create
   - compress
-  - su root syslog
+  - su root root
 
 logrotate__files:
   - name: rsyslog
@@ -114,8 +114,8 @@ logrotate__files:
       - /var/log/cron.log
       - /var/log/debug
     options:
-      - rotate 12
       - weekly
+      - rotate 4
       - missingok
       - notifempty
       - compress
