@@ -2,17 +2,33 @@
 language: python
 python: "2.7"
 
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: jessie
+    - os: linux
+      dist: stretch
+    - os: linux
+      os_type: centos
+      os_version: 6
+    - os: linux
+      os_type: centos
+      os_version: 7
+
 env:
-  matrix:
-    - ANSIBLE='ansible==2.4.0.0'
-    - ANSIBLE='ansible'
+  - ANSIBLE_VERSION=2.4.0.0
+  - ANSIBLE_VERSION=latest
 
 before_install:
   - sudo apt-get update -qq
 
 install:
   # Install ansible
-  - pip install $ANSIBLE
+  - if [ "$ANSIBLE_VERSION" == "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
  
   # Check ansible version
   - ansible --version
@@ -44,23 +60,6 @@ script:
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
-
-matrix:
-  include:
-    - os: linux
-      dist: trusty
-    - os: linux
-      dist: xenial
-    - os: linux
-      dist: jessie
-    - os: linux
-      dist: stretch
-    - os: linux
-      os_type: centos
-      os_version: 6
-    - os: linux
-      os_type: centos
-      os_version: 7
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
