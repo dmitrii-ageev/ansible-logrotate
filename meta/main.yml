@@ -3,7 +3,7 @@ galaxy_info:
   author: "Dmitrii Ageev"
   company: Research & Education Advanced Network New Zealand
   license: GNU General Public License v2.0
-  min_ansible_version: 2.3
+  min_ansible_version: 2.4
   platforms:
    - name: EL
      versions:
