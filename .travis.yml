@@ -4,15 +4,15 @@ python: "2.7"
 
 env:
   matrix:
-    - ANSIBLE_VERSION=2.3.2.0
-    - ANSIBLE_VERSION=latest
+    - ANSIBLE='ansible==2.3.2.0'
+    - ANSIBLE='ansible'
 
 before_install:
   - sudo apt-get update -qq
 
 install:
   # Install ansible
-  - pip install ansible
+  - pip install $ANSIBLE
  
   # Check ansible version
   - ansible --version
