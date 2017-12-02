@@ -26,6 +26,7 @@ env:
 before_install:
   - sudo apt-get update -qq
 
+
 install:
   # Install ansible
   - if [ "$ANSIBLE_VERSION" == "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi

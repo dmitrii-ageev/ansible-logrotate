@@ -1,7 +1,7 @@
 logrotate
 =========
 
-This role will install logrotate package, and run it as a service.
+This role will setup logrotate and create additional rotation scripts.
 
 The main role purpose is to:
 - make sure logrotate is installed and enabled in cron;
