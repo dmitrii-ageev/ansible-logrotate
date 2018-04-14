@@ -30,7 +30,7 @@ before_install:
 install:
   # Install ansible
   - if [ "$ANSIBLE_VERSION" == "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
- 
+
   # Check ansible version
   - ansible --version
 
@@ -55,9 +55,9 @@ script:
   # Run the role/playbook with ansible-playbook
   - ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
 
-  # Run the role/playbook again, checking to make sure it's idempotent
+  # Run the role/playbook again to make sure it's idempotent
   - >
-    ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml 
+    ansible-playbook -i tests/inventory --connection=local --become -vvvv tests/test.yml
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
