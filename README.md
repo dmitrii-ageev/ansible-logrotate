@@ -11,7 +11,7 @@ The main role purpose is to:
 Requirements
 ------------
 
-No special requirements; note that this role requires root access.
+This role requires root access.
 
 Role Variables
 --------------
@@ -64,5 +64,5 @@ GNU General Public License v2.0
 Author Information
 ------------------
 
-Dmitrii Ageev <dmitrii.ageev@reannz.co.nz>
+Dmitrii Ageev <dageev@gmail.com>
 
