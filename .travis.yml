@@ -13,9 +13,7 @@
     - uname -a
     - ssh-keygen -f ~/.ssh/id_rsa -P ''
     - sudo apt install software-properties-common -y
-    - sudo apt-add-repository -y "deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse"
     - sudo apt update -y
-    - sudo apt upgrade -y
     - sudo apt install lxd lxd-client -y
     - sudo apt-get install --only-upgrade lxd lxd-client -y
     - sudo lxd init --auto
