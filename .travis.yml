@@ -7,10 +7,10 @@
     - docker
 
   env:
-    - DISTRIBUTION=Ubuntu VERSION=xenial ANSIBLE_VERSION=2.4.0.0
-    - DISTRIBUTION=Ubuntu VERSION=xenial ANSIBLE_VERSION=latest
-    - DISTRIBUTION=CentOS VERSION=7      ANSIBLE_VERSION=2.4.0.0
-    - DISTRIBUTION=CentOS VERSION=7      ANSIBLE_VERSION=latest
+    - DISTRIBUTION=ubuntu VERSION=xenial ANSIBLE_VERSION=2.4.0.0
+    - DISTRIBUTION=ubuntu VERSION=xenial ANSIBLE_VERSION=latest
+    - DISTRIBUTION=centos VERSION=7      ANSIBLE_VERSION=2.4.0.0
+    - DISTRIBUTION=centos VERSION=7      ANSIBLE_VERSION=latest
 
   before_install:
     # Let's check what kind of system we're running under
@@ -74,10 +74,10 @@
 
           # Install openssh-server and python in the container
           case ${DISTRIBUTION} in
-          'Ubuntu'|'Debian')
+          'ubuntu'|'debian')
               sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- apt install openssh-server python2.7 -y"
               ;;
-          'CentOS'|'RedHat')
+          'centos'|'redhat')
               sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- yum install openssh-server python2.7 -y"
               ;;
           *)
