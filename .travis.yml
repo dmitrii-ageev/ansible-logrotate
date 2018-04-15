@@ -1,6 +1,10 @@
 ---
+  sudo: required
   language: python
   python: "2.7"
+
+  servicec:
+    - docker
 
   env:
     - DISTRIBUTION=Ubuntu VERSION=xenial ANSIBLE_VERSION=2.4.0.0
@@ -12,22 +16,13 @@
     # Let's check what kind of system we're running under
     - uname -a
     - ssh-keygen -f ~/.ssh/id_rsa -P ''
-    - sudo apt install software-properties-common -y
-    - sudo apt update -y
-    - sudo apt install lxd lxd-client -y
-    - sudo apt-get install --only-upgrade lxd lxd-client -y
-    - sudo lxd init --auto
-    - sudo gpasswd -a travis lxd
-    - sudo su travis -c 'lxc network create lxdbr0'
-    - sudo su travis -c 'lxc network attach-profile lxdbr0 default eth0'
 
   install:
     # Install ansible
     - if [ "$ANSIBLE_VERSION" == "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
 
-    # Check lxd and lxc version
-    - lxd --version
-    - lxc --version
+    # Check docker version
+    - docker --version
 
     # Check ansible version
     - ansible --version
@@ -47,6 +42,8 @@
     # Set ssh connectivity options
     - echo '[ssh_connection]' >> ansible.cfg
     - echo 'ssh_args = -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=10m' >> ansible.cfg
+    # Display contents of an Ansible configuration file
+    - echo "Ansible configuration file:"
     - cat ansible.cfg
 
   before_script:
@@ -54,17 +51,17 @@
     - >
       if [ ! -z ${DISTRIBUTION} ]; then
           export IMAGE=$(echo "${DISTRIBUTION}/${VERSION}" | tr '[:upper:]' '[:lower:]')
-          export CONTAINER_NAME=lxc${TRAVIS_BUILD_NUMBER}${TRAVIS_BUILD_ID}
-          sudo su travis -c "lxc launch images:${IMAGE} ${CONTAINER_NAME}"
+          export CONTAINER_NAME=docker${TRAVIS_BUILD_NUMBER}${TRAVIS_BUILD_ID}
+          sudo su travis -c "docker run -d -p 127.0.0.1:22:22 ${DISTRIBUTION}:${IMAGE} --name ${CONTAINER_NAME}"
 
           # Wait for 10 seconds until DHCP assigns for IP address
           sleep 10
 
           # Display information about existing containers
-          sudo su travis -c "lxc list"
+          sudo su travis -c "docker ps -a"
 
           # Get the container IPv4 address
-          export CONTAINER_ADDRESS=$(sudo su travis -c "lxc list ${CONTAINER_NAME}" | grep ${CONTAINER_NAME} | cut -d "|" -f 4 |  cut -d " " -f2)
+          export CONTAINER_ADDRESS=127.0.0.1
 
           # Check if IPv4 address was founded
           if [ -z ${CONTAINER_ADDRESS} ]; then
@@ -78,10 +75,10 @@
           # Install openssh-server and python in the container
           case ${DISTRIBUTION} in
           'Ubuntu'|'Debian')
-              sudo su travis -c "lxc exec ${CONTAINER_NAME} -- apt install openssh-server python2.7 -y"
+              sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- apt install openssh-server python2.7 -y"
               ;;
           'CentOS'|'RedHat')
-              sudo su travis -c "lxc exec ${CONTAINER_NAME} -- yum install openssh-server python2.7 -y"
+              sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- yum install openssh-server python2.7 -y"
               ;;
           *)
               echo 'Invalid distribution name: ${DISTRIBUTION}'
@@ -90,19 +87,19 @@
           esac
 
           # Start OpenSSH
-          sudo su travis -c "lxc exec ${CONTAINER_NAME} -- systemctl start sshd"
+          sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- systemctl start sshd"
 
           # Make ssh keys directory inside the container
-          sudo su travis -c "lxc exec ${CONTAINER_NAME} -- mkdir -p -m 700 /root/.ssh"
+          sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- mkdir -p -m 700 /root/.ssh"
 
           # Copy ssh public key to the container
-          cat ~/.ssh/id_rsa.pub | sudo su travis -c "lxc exec ${CONTAINER_NAME} -- dd of=/root/.ssh/authorized_keys"
+          cat ~/.ssh/id_rsa.pub | sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- dd of=/root/.ssh/authorized_keys"
 
           # Set correct permissions on the authorized_keys file
-          sudo su travis -c "lxc exec ${CONTAINER_NAME} -- chmod 600 /root/.ssh/authorized_keys"
+          sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- chmod 600 /root/.ssh/authorized_keys"
 
           # Create a symlink for python
-          sudo su travis -c "lxc exec ${CONTAINER_NAME} -- ln -fs /usr/bin/python2.7 /usr/bin/python"
+          sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- ln -fs /usr/bin/python2.7 /usr/bin/python"
 
       else
           # There is no IMAGE defined
@@ -134,7 +131,7 @@
 
   after_script:
     # Delete the LXD container
-    - if [ ! -z ${IMAGE} ]; then sudo su travis -c "lxc delete --force ${CONTAINER_NAME}"; fi
+    - if [ ! -z ${IMAGE} ]; then sudo su travis -c "docker rm --force ${CONTAINER_NAME}"; fi
 
   notifications:
     webhooks: https://galaxy.ansible.com/api/v1/notifications/
