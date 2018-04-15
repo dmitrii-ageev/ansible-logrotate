@@ -7,10 +7,10 @@
     - docker
 
   env:
-    - DISTRIBUTION=ubuntu VERSION=xenial ANSIBLE_VERSION=2.4.0.0
-    - DISTRIBUTION=ubuntu VERSION=xenial ANSIBLE_VERSION=latest
-    - DISTRIBUTION=centos VERSION=7      ANSIBLE_VERSION=2.4.0.0
-    - DISTRIBUTION=centos VERSION=7      ANSIBLE_VERSION=latest
+    - DISTRIBUTION=Ubuntu VERSION=xenial ANSIBLE_VERSION=2.4.0.0
+    - DISTRIBUTION=Ubuntu VERSION=xenial ANSIBLE_VERSION=latest
+    - DISTRIBUTION=Centos VERSION=7      ANSIBLE_VERSION=2.4.0.0
+    - DISTRIBUTION=Centos VERSION=7      ANSIBLE_VERSION=latest
 
   before_install:
     # Let's check what kind of system we're running under
@@ -52,7 +52,7 @@
       if [ ! -z ${DISTRIBUTION} ]; then
           export IMAGE=$(echo "${DISTRIBUTION}/${VERSION}" | tr '[:upper:]' '[:lower:]')
           export CONTAINER_NAME=docker${TRAVIS_BUILD_NUMBER}${TRAVIS_BUILD_ID}
-          sudo su travis -c "docker run -d -p 22:22 --name ${CONTAINER_NAME} ${DISTRIBUTION}/${IMAGE}"
+          sudo su travis -c "docker run -d -p 22:22 --name ${CONTAINER_NAME} ${IMAGE}"
 
           # Wait for 10 seconds until DHCP assigns for IP address
           sleep 10
@@ -74,10 +74,10 @@
 
           # Install openssh-server and python in the container
           case ${DISTRIBUTION} in
-          'ubuntu'|'debian')
+          'Ubuntu'|'Debian')
               sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- apt install openssh-server python2.7 -y"
               ;;
-          'centos'|'redhat')
+          'CentOS'|'RedHat')
               sudo su travis -c "docker exec -d ${CONTAINER_NAME} -- yum install openssh-server python2.7 -y"
               ;;
           *)
