@@ -52,7 +52,7 @@
       if [ ! -z ${DISTRIBUTION} ]; then
           export IMAGE=$(echo "${DISTRIBUTION}/${VERSION}" | tr '[:upper:]' '[:lower:]')
           export CONTAINER_NAME=docker${TRAVIS_BUILD_NUMBER}${TRAVIS_BUILD_ID}
-          sudo su travis -c "docker run -d -p 127.0.0.1:22:22 --name ${CONTAINER_NAME} ${DISTRIBUTION}/${IMAGE}"
+          sudo su travis -c "docker run -d -p 22:22 --name ${CONTAINER_NAME} ${DISTRIBUTION}/${IMAGE}"
 
           # Wait for 10 seconds until DHCP assigns for IP address
           sleep 10
