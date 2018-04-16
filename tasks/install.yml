@@ -46,4 +46,8 @@
   when:
     - logrotate__directories is defined
     - logrotate__directories != []
+
+- name: Set logrotate__installed flag
+  set_fact:
+    logrotate__installed: yes
 ...
