@@ -3,10 +3,10 @@
 
 - block:
     - include_tasks: install.yml
-      when: logrotate__installed is not defined
+      when: logrotate__skip_installation is not defined
     - include_tasks: configuration.yml
     - include_tasks: run.yml
-      when: logrotate__installed is not defined
+      when: logrotate__skip_installation is not defined
   when: logrotate__state == "present"
 
 - block:

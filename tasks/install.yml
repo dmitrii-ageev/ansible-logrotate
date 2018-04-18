@@ -49,5 +49,5 @@
 
 - name: Set logrotate__installed flag
   set_fact:
-    logrotate__installed: yes
+    logrotate__skip_installation: yes
 ...
