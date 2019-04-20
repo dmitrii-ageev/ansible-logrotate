@@ -9,8 +9,5 @@
   file:
     path: "{{ logrotate__include_dir }}/{{ item.name }}"
     state: absent
-  with_items: "{{ logrotate__files }}"
-  when:
-    - logrotate__files is defined
-    - logrotate__files != []
+  with_items: "{{ logrotate__files | default([]) }}"
 ...

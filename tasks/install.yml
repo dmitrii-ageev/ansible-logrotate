@@ -4,35 +4,29 @@
     repo: "{{ item }}"
     state: present
     update_cache: true
-  when:
-    - ansible_os_family == "Debian"
-    - item is defined
-  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] }}"
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] | default([]) }}"
+  when: ansible_os_family == "Debian"
 
 - name: Add required repositories for RedHat-based systems
   yum:
     name: "{{ item }}"
     state: present
     update_cache: true
-  when:
-    - ansible_os_family == "RedHat"
-    - item is defined
-  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] }}"
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['repositories'] | default([]) }}"
+  when: ansible_os_family == "RedHat"
 
 - name: Install required packages
   package:
     name: "{{ item }}"
     state: present
-  when: item is defined
-  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['required_packages'] }}"
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['required_packages'] | default([]) }}"
   notify: Restart cron service
 
 - name: Install main packages
   package:
     name: "{{ item }}"
     state: present
-  when: item is defined
-  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] }}"
+  with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] | default([]) }}"
   notify: Restart cron service
 
 - name: Create the application folder set
@@ -42,10 +36,7 @@
     owner: "{{ logrotate__user }}"
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__dir_mode }}"
-  with_items: "{{ logrotate__directories }}"
-  when:
-    - logrotate__directories is defined
-    - logrotate__directories != []
+  with_items: "{{ logrotate__directories | default([]) }}"
 
 - name: Set logrotate__installed flag
   set_fact:

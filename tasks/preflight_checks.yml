@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 - name: Check if we support the current OS distribution
   fail:
     msg: "The {{ ansible_distribution }} operating system is not supported!"

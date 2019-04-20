@@ -8,25 +8,20 @@
     mode: "{{ logrotate__file_mode }}"
   when: logrotate__conf_file is defined
 
-- name: Process logrotate files
-  block:
-    - name: Delete unwanted logrotate files
-      file:
-        path: "{{ logrotate__include_dir }}/{{ item.name }}"
-        state: absent
-      when: item.absent is defined
-      with_items: "{{ logrotate__files }}"
+- name: Delete unwanted logrotate files
+  file:
+    path: "{{ logrotate__include_dir }}/{{ item.name }}"
+    state: absent
+  when: item.absent is defined
+  with_items: "{{ logrotate__files | default([]) }}"
 
-    - name: Update individual logrotate configuration files
-      template:
-        src: logrotate.j2
-        dest: "{{ logrotate__include_dir }}/{{ item.name }}"
-        owner: "{{ logrotate__user }}"
-        group: "{{ logrotate__group }}"
-        mode: "{{ logrotate__file_mode }}"
-      when: item.absent is not defined
-      with_items: "{{ logrotate__files }}"
-  when:
-    - logrotate__files is defined
-    - logrotate__files != []
+- name: Update individual logrotate configuration files
+  template:
+    src: logrotate.j2
+    dest: "{{ logrotate__include_dir }}/{{ item.name }}"
+    owner: "{{ logrotate__user }}"
+    group: "{{ logrotate__group }}"
+    mode: "{{ logrotate__file_mode }}"
+  when: item.absent is not defined
+  with_items: "{{ logrotate__files | default([]) }}"
 ...
