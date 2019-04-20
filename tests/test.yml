@@ -2,8 +2,7 @@
 - hosts: all
   become: true
   roles:
-    - logrotate
-    - role: logrotate
+    - role: ansible-logrotate
       logrotate__files:
         - name: "application"
           path:
