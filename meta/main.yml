@@ -4,18 +4,18 @@ galaxy_info:
   license: GNU General Public License v2.0
   min_ansible_version: 2.4
   platforms:
-   - name: EL
-     versions:
-       - 6
-       - 7
-   - name: Ubuntu
-     versions:
-       - trusty
-       - xenial
-   - name: Debian
-     versions:
-       - jessie
-       - stretch
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
   galaxy_tags:
     - logrotate
     - system
