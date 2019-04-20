@@ -3,7 +3,7 @@
   apt_repository:
     repo: "{{ item }}"
     state: present
-    update_cache: yes
+    update_cache: true
   when:
     - ansible_os_family == "Debian"
     - item is defined
@@ -13,7 +13,7 @@
   yum:
     name: "{{ item }}"
     state: present
-    update_cache: yes
+    update_cache: true
   when:
     - ansible_os_family == "RedHat"
     - item is defined
@@ -49,5 +49,5 @@
 
 - name: Set logrotate__installed flag
   set_fact:
-    logrotate__skip_installation: yes
+    logrotate__skip_installation: true
 ...

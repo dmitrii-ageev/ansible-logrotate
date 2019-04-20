@@ -3,7 +3,7 @@
   template:
     src: logrotate.cron.j2
     dest: "{{ logrotate__cron_file }}"
-    force: yes
+    force: true
     owner: "{{ logrotate__user }}"
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__dir_mode }}"
