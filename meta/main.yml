@@ -1,5 +1,7 @@
 ---
+# yamllint disable rule:line-length
 galaxy_info:
+  description: This role will setup logrotate and create additional rotation scripts.
   author: Dmitrii Ageev
   license: GNU General Public License v2.0
   min_ansible_version: 2.4
