@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  become: True
+  become: true
   roles:
     - logrotate
     - role: logrotate
