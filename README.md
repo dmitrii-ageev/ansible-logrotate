@@ -24,11 +24,6 @@ path    - A list of path patterns for the log rotation.
 options - List of directives for logrotate, view the logrotate man page for specifics.
 scripts - Dictionary of scripts for logrotate with format section_name: 'executed command'.
 
-Dependencies
-------------
-
-None.
-
 Example Playbook
 ----------------
 
@@ -64,5 +59,5 @@ GNU General Public License v2.0
 Author Information
 ------------------
 
-Dmitrii Ageev <dageev@gmail.com>
+Dmitrii Ageev <d.ageev@gmail.com>
 
