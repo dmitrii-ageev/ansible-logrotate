@@ -31,7 +31,7 @@ You can invoke this role from a playbook or from an other role, declaring it as 
 ```
 ---
 - hosts: all
-  become: True
+  become: true
   roles:
     - role: logrotate
       logrotate__files:
