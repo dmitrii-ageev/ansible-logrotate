@@ -6,9 +6,7 @@
     owner: "{{ logrotate__user }}"
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__file_mode }}"
-  when:
-    - logrotate__conf_file is defined
-    - logrotate__conf_file != ''
+  when: logrotate__conf_file is defined
 
 - name: Process logrotate files
   block:

@@ -3,9 +3,7 @@
   file:
     path: "{{ logrotate__conf_file }}"
     state: absent
-  when:
-    - logrotate__conf_file is defined
-    - logrotate__conf_file != ''
+  when: logrotate__conf_file is defined
 
 - name: "Delete logrotate files"
   file:
