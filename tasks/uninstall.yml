@@ -1,5 +1,4 @@
 ---
-# yamllint disable rule:line-length
 - name: Uninstall packages
   package:
     name: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] }}"

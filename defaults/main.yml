@@ -1,6 +1,4 @@
 ---
-# yamllint disable rule:colons
-# yamllint disable rule:line-length
 # GLOBAL VARIABLES
 logrotate__state:                "present"
 logrotate__daemon:               "logrotate"
@@ -70,12 +68,12 @@ logrotate__packages:
       required_packages:
         - cron
   Ubuntu:
-    14:
+    16:
       packages:
         - "{{ logrotate__service }}"
       required_packages:
         - cron
-    16:
+    18:
       packages:
         - "{{ logrotate__service }}"
       required_packages:

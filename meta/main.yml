@@ -1,5 +1,4 @@
 ---
-# yamllint disable rule:line-length
 galaxy_info:
   description: This role will setup logrotate and create additional rotation scripts.
   author: Dmitrii Ageev
