@@ -7,5 +7,4 @@
     owner: "{{ logrotate__user }}"
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__dir_mode }}"
-  notify: Restart cron service
 ...

@@ -3,5 +3,4 @@
   file:
     path: "{{ logrotate__cron_file }}"
     state: absent
-  notify: Restart cron service
 ...

@@ -1,6 +1,0 @@
----
-- name: Restart cron service
-  service:
-    name: "{{ 'cron' if ansible_os_family == 'Debian' else 'crond' }}"
-    state: restarted
-...

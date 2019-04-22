@@ -20,14 +20,12 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['required_packages'] | default([]) }}"
-  notify: Restart cron service
 
 - name: Install main packages
   package:
     name: "{{ item }}"
     state: present
   with_items: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['packages'] | default([]) }}"
-  notify: Restart cron service
 
 - name: Create the application folder set
   file:
