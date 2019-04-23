@@ -7,4 +7,10 @@
     owner: "{{ logrotate__user }}"
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__dir_mode }}"
+
+- name: Enable and start cron daemon
+  systemd:
+    name: "{{ logrotate__cron_service }}"
+    enabled: true
+    state: started
 ...
