@@ -6,8 +6,7 @@ env:
   global:
     - ROLE_NAME: logrotate
   matrix:
-    - MOLECULE_DISTRO: centos:7
-    - MOLECULE_DISTRO: yjjy0921/redhat7.2
+    - MOLECULE_DISTRO: centos/systemd
     - MOLECULE_DISTRO: ubuntu:16.04
     - MOLECULE_DISTRO: ubuntu:18.04
     - MOLECULE_DISTRO: debian:8
