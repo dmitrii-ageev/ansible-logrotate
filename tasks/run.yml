@@ -13,4 +13,8 @@
     name: "{{ logrotate__cron_service }}"
     enabled: true
     state: started
+
+- name: Set logrotate__installed flag
+  set_fact:
+    logrotate__skip_installation: true
 ...

@@ -35,8 +35,4 @@
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__dir_mode }}"
   with_items: "{{ logrotate__directories | default([]) }}"
-
-- name: Set logrotate__installed flag
-  set_fact:
-    logrotate__skip_installation: true
 ...
