@@ -9,6 +9,7 @@ platforms:
   - name: instance
     image: ${MOLECULE_DISTRO:-centos/systemd}
     privileged: true
+    command: /usr/sbin/init
 provisioner:
   name: ansible
   lint:
