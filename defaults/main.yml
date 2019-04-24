@@ -53,7 +53,7 @@ logrotate__file_mode:            "0644"
 logrotate__exec_mode:            "0755"
 
 # SOFTWARE
-logrotate__cron_service: "{{ logrotate__packages[ansible_distribution][ansible_distribution_major_version|int]['required_packages'][0] }}"
+logrotate__cron_service:         "crond"
 logrotate__directories:
   - "{{ logrotate__include_dir }}"
 
