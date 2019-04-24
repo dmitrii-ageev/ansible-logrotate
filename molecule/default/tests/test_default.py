@@ -19,12 +19,12 @@ def test_cron_daemon(host):
         package_name = 'cronie'
     else:
         raise ValueError('Unsupported distribution:', distribution)
-    # service_name = package_name
+    service_name = "crond"
 
     # Check if the system has cron daemon installed, enabled, up and running
     assert host.package(package_name).is_installed, 'The %s package should be installed.' % package_name
-    # assert host.service(service_name).is_running, 'The %s daemon should be running.' % service_name
-    # assert host.service(service_name).is_enabled, 'The %s service should be enabled.' % service_name
+    assert host.service(service_name).is_running, 'The %s daemon should be running.' % service_name
+    assert host.service(service_name).is_enabled, 'The %s service should be enabled.' % service_name
 
 
 def test_logrotate_configuration(host):
