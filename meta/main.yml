@@ -1,8 +1,8 @@
 ---
 galaxy_info:
+  author: dmitrii-ageev
   role_name: logrotate
   description: This role will setup logrotate and create additional rotation scripts.
-  author: Dmitrii Ageev
   license: GNU General Public License v2.0
   min_ansible_version: 2.4
   platforms:
@@ -11,8 +11,9 @@ galaxy_info:
         - 7
   galaxy_tags:
     - logrotate
-    - system
     - centos
+    - redhat
+    - EL
     - logs
     - rotate
 ...
