@@ -13,7 +13,7 @@
     path: "{{ logrotate__include_dir }}/{{ item.name }}"
     state: absent
   when: item.absent is defined
-  with_items: "{{ logrotate__files | default([]) }}"
+  loop: "{{ logrotate__files | default([]) | flatten(levels=1) }}"
 
 - name: Update individual logrotate configuration files
   template:
@@ -23,5 +23,5 @@
     group: "{{ logrotate__group }}"
     mode: "{{ logrotate__file_mode }}"
   when: item.absent is not defined
-  with_items: "{{ logrotate__files | default([]) }}"
+  loop: "{{ logrotate__files | default([]) | flatten(levels=1) }}"
 ...
