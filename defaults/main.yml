@@ -57,41 +57,11 @@ logrotate__cron_service:         "crond"
 logrotate__directories:
   - "{{ logrotate__include_dir }}"
 
-logrotate__packages:
-  Debian:
-    8:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cron
-    9:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cron
-  Ubuntu:
-    16:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cron
-    18:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cron
-  CentOS:
-    7:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cronie
-  RedHat:
-    7:
-      packages:
-        - "{{ logrotate__service }}"
-      required_packages:
-        - cronie
+logrotate__main_packages:
+  - "{{ logrotate__service }}"
+
+logrotate__required_packages:
+  - cronie
 
 # OPTIONS
 logrotate__options:
@@ -126,10 +96,10 @@ logrotate__files:
     scripts:
       postrotate: invoke-rc.d rsyslog rotate > /dev/null
 
-  - name: "{{ 'dpkg' if ansible_os_family == 'Debian' else 'yum' }}"
+  - name: yum
     pattern:
-      - "/var/log/{{ 'dpkg' if ansible_os_family == 'Debian' else 'yum' }}.log"
-      - "/var/log/alternatives.log"
+      - /var/log/yum.log
+      - /var/log/alternatives.log
     options:
       - monthly
       - size 30k
