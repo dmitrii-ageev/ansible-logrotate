@@ -7,22 +7,11 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 6
         - 7
-    - name: Ubuntu
-      versions:
-        - trusty
-        - xenial
-    - name: Debian
-      versions:
-        - jessie
-        - stretch
   galaxy_tags:
     - logrotate
     - system
     - centos
-    - ubuntu
-    - debian
     - logs
     - rotate
 ...
