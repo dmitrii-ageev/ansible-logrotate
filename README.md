@@ -1,5 +1,5 @@
-logrotate
-=========
+dmitrii-ageev.logrotate
+=======================
 
 This role will setup logrotate and create additional rotation scripts.
 
@@ -33,7 +33,7 @@ You can invoke this role from a playbook or from an other role, declaring it as 
 - hosts: all
   become: true
   roles:
-    - role: logrotate
+    - role: dmitrii-ageev.logrotate
       logrotate__files:
         - name: glusterfs
           path:
