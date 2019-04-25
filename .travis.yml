@@ -7,10 +7,6 @@ env:
     - ROLE_NAME: logrotate
   matrix:
     - MOLECULE_DISTRO: centos/systemd
-    - MOLECULE_DISTRO: ubuntu:16.04
-    - MOLECULE_DISTRO: ubuntu:18.04
-    - MOLECULE_DISTRO: debian:8
-    - MOLECULE_DISTRO: debian:9
 
 install:
   # Install test dependencies.
@@ -24,7 +20,7 @@ before_script:
 
 script:
   # Run tests.
-  - molecule test
+  - molecule --debug test --all
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
