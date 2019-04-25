@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: logrotate
   description: This role will setup logrotate and create additional rotation scripts.
   author: Dmitrii Ageev
   license: GNU General Public License v2.0
