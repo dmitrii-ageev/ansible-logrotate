@@ -14,4 +14,4 @@
           scripts:
             postrotate: systemctl reload application > /dev/null
         - name: syslog
-          absent: true
+          state: absent

@@ -19,7 +19,7 @@ Role Variables
 logrotate__files: A list of logrotate files and the directives to use for the rotation.
 
 name    - The name of the file that goes into /etc/logrotate.d/.
-absent  - If defined a file will be deleted from /etc/logrotate.d/ directory.
+state   - If set to 'absent' the file will be deleted from /etc/logrotate.d/ directory.
 path    - A list of path patterns for the log rotation.
 options - List of directives for logrotate, view the logrotate man page for specifics.
 scripts - Dictionary of scripts for logrotate with format section_name: 'executed command'.
