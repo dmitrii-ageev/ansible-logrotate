@@ -10,3 +10,7 @@ rules:
   line-length: disable
   truthy: enable
   colons: disable
+
+ignore: |
+  venv/
+

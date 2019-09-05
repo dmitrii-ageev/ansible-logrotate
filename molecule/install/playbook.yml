@@ -12,6 +12,6 @@
             - rotate 4
             - compress
           scripts:
-            postrotate: systemctl reload application > /dev/null
+            postrotate: systemctl reload application &>/dev/null
         - name: syslog
           state: absent

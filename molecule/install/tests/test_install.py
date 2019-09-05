@@ -12,13 +12,7 @@ def test_os_type(host):
 
 def test_cron_daemon(host):
     # Get the scheduler daemon name
-    distribution = host.system_info.distribution
-    if distribution == 'debian' or distribution == 'ubuntu':
-        package_name = 'cron'
-    elif distribution == 'centos' or distribution == 'redhat':
-        package_name = 'cronie'
-    else:
-        raise ValueError('Unsupported distribution:', distribution)
+    package_name = 'cronie'
     service_name = "crond"
 
     # Check if the system has cron daemon installed, enabled, up and running
@@ -33,7 +27,7 @@ def test_logrotate_configuration(host):
 
     # Logratate configuration file must be in place
     configuration = host.file('/etc/logrotate.conf')
-    assert configuration.exists, 'The logrotate.conf should exists'
+    assert configuration.exists, 'The logrotate.conf file should exists.'
 
     # Logrotate configuration file must load everything from logrotate.d
     assert configuration.contains('include /etc/logrotate.d'), 'Logrotate should read settings from logrotate.d!'
