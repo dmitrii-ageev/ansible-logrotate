@@ -13,5 +13,5 @@
     - include_tasks: stop.yml
     - include_tasks: deconfiguration.yml
     - include_tasks: uninstall.yml
-  when: not logrotate__state == "present"
+  when: logrotate__state == "absent"
 ...
